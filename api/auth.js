@@ -2,6 +2,10 @@ const { OAuth2Client } = require("google-auth-library");
 const oAuth2Client = new OAuth2Client(process.env.CLIENT_ID, process.env.CLIENT_SECRET, "postmessage");
 
 export default async function handler(req, res) {
+  if (req.method === "OPTIONS") {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    return res.status(200);
+  }
   if (req.method === "POST") {
     const { body } = req;
     // return res.send(`Hello ${body.name}, you just parsed the request body!`);

@@ -7,7 +7,7 @@ const Home = () => {
     flow: "auth-code",
     onSuccess: async (codeResponse) => {
       console.log(codeResponse);
-      const tokens = await axios.post("http://localhost:3001/auth/google", {
+      const tokens = await axios.post("https://meow-contacts.vercel.app/api/auth", {
         code: codeResponse.code,
       });
 
