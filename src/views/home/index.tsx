@@ -10,8 +10,8 @@ const Home = () => {
       const tokens = await axios.post("https://meow-contacts.vercel.app/api/auth", {
         code: codeResponse.code,
       });
-
-      console.log(tokens);
+      const token = tokens.data.access_token;
+      console.log(tokens.data);
     },
     onError: (errorResponse) => console.log(errorResponse),
   });

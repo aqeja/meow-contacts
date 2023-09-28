@@ -7,7 +7,7 @@ const container = createRoot(document.getElementById("root")!);
 
 container.render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId="965998109838-tg06p5dfejuhee6vdkdmfvrm5r992kt3.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="965998109838-plep4q0p0nm5dgft35uu6iohln40hhd2.apps.googleusercontent.com">
       <Router />
     </GoogleOAuthProvider>
   </React.StrictMode>,
