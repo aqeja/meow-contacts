@@ -5,7 +5,7 @@ import axios from "axios";
 const Home = () => {
   const googleLogin = useGoogleLogin({
     flow: "auth-code",
-    scope: "https://www.googleapis.com/auth/contacts",
+    scope: "https://www.googleapis.com/auth/contacts https://www.googleapis.com/auth/contacts.other",
     onSuccess: async (codeResponse) => {
       console.log(codeResponse);
       const tokens = await axios.post("https://meow-contacts.vercel.app/api/auth", {
