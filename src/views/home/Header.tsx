@@ -206,7 +206,7 @@ const Search = () => {
 };
 
 const Header = () => {
-  const { data: profileResponse } = useGetContact("people/me");
+  const { data: profileResponse, error } = useGetContact("people/me");
 
   return (
     <Box

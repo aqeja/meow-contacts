@@ -1,3 +1,5 @@
+import { refreshToken } from "@/api/auth";
+
 export interface GoogleAuth {
   access_token: string;
   refresh_token: string;
@@ -6,6 +8,7 @@ export interface GoogleAuth {
   id_token: string;
   expiry_date: number;
 }
+
 class Auth {
   private name = "_APP_AUTH_STORAGE";
   private _getAuth(): GoogleAuth | null {
@@ -19,18 +22,31 @@ class Auth {
   }
   check() {
     const auth = this._getAuth();
-    if (!auth) return false;
+    const result = {
+      valid: false,
+      refresh: true,
+      refresh_token: "",
+    };
+    if (!auth) return result;
     try {
-      const { expiry_date, access_token } = auth;
-      if (typeof expiry_date === "number" && expiry_date < Date.now() && !!access_token) {
-        return true;
+      const { expiry_date, access_token, refresh_token } = auth;
+      if (typeof expiry_date === "number" && expiry_date > Date.now() && !!access_token) {
+        return {
+          valid: true,
+          refresh: false,
+          refresh_token,
+        };
       } else {
-        this.remove();
+        return {
+          valid: true,
+          refresh: false,
+          refresh_token,
+        };
       }
     } catch (error) {
       this.remove();
     }
-    return false;
+    return result;
   }
   create(auth: GoogleAuth) {
     window.localStorage.setItem(this.name, JSON.stringify(auth));
@@ -38,7 +54,13 @@ class Auth {
   remove() {
     window.localStorage.removeItem(this.name);
   }
-  get() {
+  async get() {
+    const { valid, refresh, refresh_token } = this.check();
+
+    if (valid && refresh && !!refresh) {
+      const { data } = await refreshToken(refresh_token);
+      this.create(data);
+    }
     return this._getAuth();
   }
 }

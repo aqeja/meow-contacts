@@ -32,8 +32,9 @@ import Info from "./Info";
 import { contactMenuDataState, deleteContactOpenState } from "@/store/contact";
 import { useSetRecoilState } from "recoil";
 import GroupMenu from "../../components/GroupMenu";
-import Loading from "@/components/Loading";
+
 import { isNotFoundError } from "@/common/tools";
+import { LinearLoading } from "@/components/Loading";
 const FallbackDisplay: React.FC<{
   data: unknown[] | null | undefined;
   children: React.ReactNode;
@@ -42,13 +43,7 @@ const FallbackDisplay: React.FC<{
   if (!data || data.length === 0) return <>{fallback}</>;
   return <>{children}</>;
 };
-const PersonLoading = () => {
-  return (
-    <Portal>
-      <LinearProgress variant="indeterminate" className="!fixed left-0 top-0 z-10 w-full" />
-    </Portal>
-  );
-};
+
 const Person = () => {
   const { id } = useParams() as { id: string };
   const { data, isLoading, error } = useGetContact(`people/${id}`);
@@ -107,7 +102,7 @@ const Person = () => {
     }
     return <>ops</>;
   }
-  if (isLoading || !error) return <PersonLoading />;
+  if (isLoading && !error) return <LinearLoading />;
   return (
     <>
       <Box

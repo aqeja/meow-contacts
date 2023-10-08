@@ -24,7 +24,7 @@ client.interceptors.request.use(
     },
   ) => {
     const url = fullUrl(config.baseURL, config.url);
-    const _authInfo = auth.get();
+    const _authInfo = await auth.get();
     const customConfig = {
       ...defaultCustomConfig,
       ...config.CUSTOM,
@@ -34,15 +34,12 @@ client.interceptors.request.use(
       if (!_authInfo) {
         throw new AuthNotExistError();
       }
-      const isAuthValid = auth.check();
-      if (!isAuthValid) {
-        throw new AuthExpiredeError();
-      }
+
       let token = "";
-      if (isAuthValid && !!_authInfo?.access_token) {
+      if (!!_authInfo?.access_token) {
         token = _authInfo.access_token;
       } else {
-        throw new AuthExpiredeError(); // 其实不会执行到这个逻辑，已经提前报错
+        throw new AuthNotExistError(); // 其实不会执行到这个逻辑，已经提前报错
       }
 
       if (url.includes(GoogleAPIUrl) || isDEV) {
@@ -67,6 +64,9 @@ client.interceptors.response.use(
     return value;
   },
   (e) => {
+    if (e instanceof AuthNotExistError) {
+      alert("请重新登录");
+    }
     if (e instanceof AxiosError && e.name === "AxiosError") {
       const response = e.response?.data;
       if (isGoogleError(response)) {

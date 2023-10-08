@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, LinearProgress, Portal } from "@mui/material";
 
 const Loading = () => {
   return (
@@ -10,3 +10,10 @@ const Loading = () => {
 };
 
 export default Loading;
+export const LinearLoading = () => {
+  return (
+    <Portal>
+      <LinearProgress variant="indeterminate" className="!fixed left-0 top-0 z-10 w-full" />
+    </Portal>
+  );
+};
