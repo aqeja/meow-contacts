@@ -81,6 +81,7 @@ const Person = () => {
       </GroupMenu>
     );
   }, [data, id, theme.palette.primary.main]);
+
   if (error) {
     if (isNotFoundError(error)) {
       return (
@@ -159,6 +160,7 @@ const Person = () => {
                     key={item.contactGroupMembership.contactGroupId}
                     variant="outlined"
                     size="small"
+                    clickable
                     sx={{
                       mr: 1,
                       my: 0.5,
@@ -167,6 +169,9 @@ const Person = () => {
                       height: 28,
                       fontSize: 12,
                       fontWeight: 500,
+                    }}
+                    onClick={() => {
+                      navigate(`/${item.contactGroupMembership.contactGroupResourceName}`);
                     }}
                     classes={{
                       label: "h-[28px] flex items-center !px-4",
@@ -197,10 +202,11 @@ const Person = () => {
               alignSelf: "flex-start",
             }}
           >
-            <IconButton>
+            <IconButton disabled>
               <MdStarOutline size={18} />
             </IconButton>
             <Button
+              disabled
               variant="contained"
               disableElevation
               sx={{
@@ -211,6 +217,7 @@ const Person = () => {
               修改
             </Button>
             <IconButton
+              disabled
               onClick={() => {
                 setDeleteContactOpen(true);
                 setContactData((p) => ({
@@ -221,7 +228,7 @@ const Person = () => {
             >
               <MdDeleteOutline size={18} />
             </IconButton>
-            <IconButton>
+            <IconButton disabled>
               <MdMoreVert size={18} />
             </IconButton>
           </Box>
@@ -232,6 +239,7 @@ const Person = () => {
         <Divider className="absolute left-0 w-full top-1/2" />
         <Box component="div" className="inline-flex relative z-10 bg-white contact-page_divider_actions">
           <IconButton
+            disabled
             className="flex-shrink-0"
             sx={{
               mr: 2,
@@ -243,6 +251,7 @@ const Person = () => {
             <MdMailOutline size={18} />
           </IconButton>
           <IconButton
+            disabled
             className="flex-shrink-0"
             sx={{
               mr: 2,
@@ -254,6 +263,7 @@ const Person = () => {
             <MdCalendarToday size={16} />
           </IconButton>
           <IconButton
+            disabled
             className="flex-shrink-0"
             sx={{
               mr: 2,
@@ -265,6 +275,7 @@ const Person = () => {
             <MdOutlineChatBubbleOutline size={18} />
           </IconButton>
           <IconButton
+            disabled
             className="flex-shrink-0"
             sx={{
               width: 40,

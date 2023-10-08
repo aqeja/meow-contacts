@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { listAllGroups, listGroups, createGroup, deleteGroup, updateGroup } from "@/api";
+import { listAllGroups, listGroups, createGroup, deleteGroup, updateGroup, listGroupContacts } from "@/api";
 import { GroupBody, ListGroupsParams } from "@/types/group";
 
 /**
@@ -58,5 +58,12 @@ export function useEditGroup() {
     mutationFn: ({ resource, params }: { resource: string; params: GroupBody }) => {
       return updateGroup(resource, params);
     },
+  });
+}
+
+export function useListGroupContacts(groupResourceName: string) {
+  return useQuery({
+    queryKey: ["listGroupContacts", groupResourceName],
+    queryFn: () => listGroupContacts(groupResourceName),
   });
 }

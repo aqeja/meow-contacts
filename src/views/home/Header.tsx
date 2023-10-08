@@ -18,7 +18,7 @@ import { MdMenu, MdSearch, MdClose, MdOutlineHelpOutline, MdSettings, MdApps } f
 
 import { SearchContactsResponse } from "@/types/searchContacts";
 import { searchContacts } from "@/api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useGetContact } from "@/hooks/useContacts";
 
 const Selector: React.FC<{
@@ -217,30 +217,34 @@ const Header = () => {
         p: 1,
       }}
     >
-      <IconButton sx={{ ml: "8px" }}>
+      <IconButton disabled sx={{ ml: "8px" }}>
         <MdMenu />
       </IconButton>
-      <Avatar sx={{ mr: "8px", ml: "8px" }} src="/contacts_2022_48dp.png" variant="square" />
-      <Typography
-        variant="h5"
-        fontWeight={400}
-        sx={{
-          fontSize: 22,
-          color: "#5f6368",
-          whiteSpace: "nowrap",
-        }}
-      >
-        通讯录
-      </Typography>
+      <Link to="/" className="flex items-center">
+        <Avatar sx={{ mr: "8px", ml: "8px" }} src="/contacts_2022_48dp.png" variant="square" />
+        <Typography
+          variant="h5"
+          fontWeight={400}
+          sx={{
+            fontSize: 22,
+            color: "#5f6368",
+            whiteSpace: "nowrap",
+          }}
+        >
+          通讯录
+        </Typography>
+      </Link>
+
       <Search />
       <Box sx={{ ml: "auto" }} component="div" className="flex items-center">
-        <IconButton>
+        <IconButton disabled>
           <MdOutlineHelpOutline size={20} />
         </IconButton>
-        <IconButton sx={{ ml: 1.5 }}>
+
+        <IconButton disabled sx={{ ml: 1.5 }}>
           <MdSettings size={20} />
         </IconButton>
-        <IconButton sx={{ ml: 3 }}>
+        <IconButton disabled sx={{ ml: 3 }}>
           <MdApps size={24} />
         </IconButton>
         <Avatar

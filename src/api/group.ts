@@ -1,5 +1,6 @@
 import client from "@/common/request";
 import { GroupBody, ListGroupsParams } from "@/types/group";
+import { ListGroupContactsResponse } from "@/types/listGroupContacts";
 import { ListGroupsResponse } from "@/types/listGroups";
 import { AxiosResponse } from "axios";
 
@@ -78,4 +79,12 @@ export const bindContacts = (
     resourceNamesToAdd,
     resourceNamesToRemove,
   });
+};
+/**
+ * 获取分组下的联系人
+ * @see https://developers.google.com/people/api/rest/v1/contactGroups/get
+ */
+export const listGroupContacts = (groupResourceName: string) => {
+  const fields = ["name", "metadata", "groupType", "clientData"].join();
+  return client.get<ListGroupContactsResponse>(`/v1/${groupResourceName}?maxMembers=${999}&groupFields=${fields}`);
 };

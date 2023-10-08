@@ -1,7 +1,7 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 
-import { Box, Button, CircularProgress } from "@mui/material";
+import { Avatar, Box, Button, CircularProgress } from "@mui/material";
 import Side from "./Side";
 import Header from "./Header";
 import { Outlet } from "react-router-dom";
@@ -18,6 +18,7 @@ const Home = () => {
   const googleLogin = useGoogleLogin({
     flow: "auth-code",
     scope: "https://www.googleapis.com/auth/contacts",
+
     onSuccess: async (codeResponse) => {
       setLoading(true);
 
@@ -29,15 +30,31 @@ const Home = () => {
     onError: (errorResponse) => console.log(errorResponse),
   });
   useRestoreScroll();
-
+  useEffect(() => {
+    if (!isAuthValid && !loading) {
+      setTimeout(() => {
+        googleLogin();
+      }, 100);
+    }
+  }, [isAuthValid, loading, googleLogin]);
   if (loading) {
     return <LinearLoading />;
   }
   if (!isAuthValid) {
     return (
-      <>
-        <Button onClick={googleLogin}>点击登录</Button>
-      </>
+      <Box component="div" className="h-screen flex items-center justify-center">
+        <Avatar src="/contacts_2022_48dp.png" />
+        <Box>
+          <Button
+            sx={{
+              textTransform: "none",
+            }}
+            onClick={googleLogin}
+          >
+            使用Goole账号登录
+          </Button>
+        </Box>
+      </Box>
     );
   }
 

@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "@/views/home";
 import ContactList from "@/views/home/List";
 const Person = React.lazy(() => import("@/views/person"));
+const GroupContacts = React.lazy(() => import("@/views/group/ContactList"));
 const LinearProgress = () => {
   return <div>loading...</div>;
 };
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "person/:id",
         element: <Person />,
+      },
+      {
+        path: "contactGroups/:id",
+        element: <GroupContacts />,
       },
       {
         path: "*",

@@ -18,6 +18,7 @@ import { useSetRecoilState } from "recoil";
 import { GroupDialogViewType, groupDialogDataState } from "@/store/group";
 import { EditGroup } from "./EditGroup";
 import { NavLink } from "react-router-dom";
+import { useToast } from "@/components/Toast";
 const links = [
   {
     label: "通讯录",
@@ -145,7 +146,7 @@ const SideBody = () => {
   const { data: groups } = useListGroups("", true);
   const [el, setEl] = useState<HTMLElement | null>(null);
   const setDeleteGroupData = useSetRecoilState(groupDialogDataState);
-
+  const { showToast } = useToast();
   return (
     <Box
       className="absolute left-0 top-0 h-full overflow-auto contact_list_side"
@@ -179,6 +180,9 @@ const SideBody = () => {
             "&:hover": {
               boxShadow: "0 1px 3px 0 rgba(60,64,67,.302), 0 4px 8px 3px rgba(60,64,67,.149)",
             },
+          }}
+          onClick={() => {
+            showToast("功能不可用");
           }}
         >
           <svg width="36" height="36" viewBox="0 0 36 36">

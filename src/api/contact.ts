@@ -1,4 +1,5 @@
 import client from "@/common/request";
+import { OriginBatchGetContactsResponse, TransformedBatchGetContactsResponse } from "@/types/batchGetContacts";
 import { Contact, ContactResponse, PersonField } from "@/types/contact";
 import { ListContactsParams, ListContactsResponse } from "@/types/listContacts";
 import { SearchContactsResponse } from "@/types/searchContacts";
@@ -113,4 +114,19 @@ export const deleteContact = (resource: string) => {
 
 export const getContact = (resource: string, fields: PersonField[]) => {
   return client.get<ContactResponse>(`/v1/${resource}?personFields=${fields.join()}`);
+};
+
+/**
+ * 批量获取联系人
+ * @see https://developers.google.com/people/api/rest/v1/people/getBatchGet
+ */
+export const batchGetContacts = (resoureNames: string[]) => {
+  /**
+   * 文档要求如此处理
+   */
+  const namesQuery = resoureNames.reduce((prev, item) => {
+    return `${prev}resourceNames=${item}&`;
+  }, "");
+  const personFields = ["names", "photos", "phoneNumbers", "organizations", "memberships", "emailAddresses"].join();
+  return client.get<OriginBatchGetContactsResponse>(`/v1/people:batchGet?${namesQuery}&personFields=${personFields}`);
 };

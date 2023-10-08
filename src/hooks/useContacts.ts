@@ -1,4 +1,4 @@
-import { deleteContact, getContact, listAllContacts, listAllGroups, listContacts, searchContacts } from "@/api";
+import { batchGetContacts, deleteContact, getContact, listAllContacts, searchContacts } from "@/api";
 import { PersonField } from "@/types/contact";
 import { useQuery, useMutation } from "@tanstack/react-query";
 
@@ -67,5 +67,18 @@ export function useSearchContacts(keyword: string) {
         readMask: ["names", "photos"],
       });
     },
+  });
+}
+
+export function useBatchGetContacts(resourceNames: string[]) {
+  return useQuery({
+    queryKey: ["batchGetContacts", resourceNames],
+    queryFn: () =>
+      batchGetContacts(resourceNames).then((res) => {
+        return {
+          connections: res.data.responses.map((item) => item.person),
+        };
+      }),
+    enabled: resourceNames.length > 0,
   });
 }

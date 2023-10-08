@@ -23,7 +23,7 @@ const UpdateTime: React.FC<{ time: string }> = ({ time }) => {
       >
         <Typography fontWeight={500} sx={{ mb: 1 }} className="flex items-center">
           历史记录
-          <IconButton size="small">
+          <IconButton size="small" disabled>
             <MdHelpOutline size={16} />
           </IconButton>
         </Typography>

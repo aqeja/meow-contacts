@@ -15,9 +15,3 @@ export class AuthNotExistError implements AppError {
   code = ErrorCode.AuthNotExist;
   message = "未登录";
 }
-
-export class AuthExpiredeError implements AppError {
-  name = "AuthExpired";
-  code = ErrorCode.AuthExpired;
-  message = "登录信息已失效";
-}

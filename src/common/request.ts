@@ -1,7 +1,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { fullUrl } from "./tools";
 import { auth } from "./auth";
-import { AuthExpiredeError, AuthNotExistError } from "./errors";
+import { AuthNotExistError } from "./errors";
 import { GoogleError } from "@/types/error";
 
 const GoogleAPIUrl = "https://people.googleapis.com";
@@ -11,6 +11,9 @@ const client = axios.create({
 const isDEV = import.meta.env.DEV;
 
 export type CustomConfig = {
+  /**
+   * 是否需要携带登录验证信息
+   */
   auth?: boolean;
 };
 const defaultCustomConfig: CustomConfig = {
