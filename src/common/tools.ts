@@ -4,8 +4,8 @@ export function fullUrl(baseUrl = "", url = "") {
   return baseUrl && !url.startsWith("http") ? `${baseUrl}${url}` : url;
 }
 export function compareArrays(a: string[], b: string[]) {
-  const addedValues = [];
-  const removedValues = [];
+  const addedValues: string[] = [];
+  const removedValues: string[] = [];
 
   // 检查增加的值
   for (let i = 0; i < b.length; i++) {
