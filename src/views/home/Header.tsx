@@ -136,7 +136,7 @@ const Search = () => {
   }, []);
   return (
     <form
-      className="flex-grow max-w-[720px] ml-[110px] z-10"
+      className="flex-grow max-w-[720px] ml-[110px] z-10 contact_list_search"
       action=""
       onSubmit={(e) => {
         e.preventDefault();
@@ -227,6 +227,7 @@ const Header = () => {
         sx={{
           fontSize: 22,
           color: "#5f6368",
+          whiteSpace: "nowrap",
         }}
       >
         通讯录

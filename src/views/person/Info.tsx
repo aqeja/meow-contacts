@@ -36,6 +36,7 @@ const Info: React.FC<{ data?: ContactResponse }> = ({ data }) => {
         p: 2,
         border: 0,
         width: "520px",
+        maxWidth: "100%",
         borderRadius: 4,
       }}
     >

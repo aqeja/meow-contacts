@@ -148,7 +148,7 @@ const SideBody = () => {
 
   return (
     <Box
-      className="absolute left-0 top-0 h-full overflow-auto"
+      className="absolute left-0 top-0 h-full overflow-auto contact_list_side"
       component="div"
       sx={{
         width: 280,

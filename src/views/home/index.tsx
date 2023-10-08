@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 
 import { Box, Button, CircularProgress } from "@mui/material";
@@ -10,6 +10,7 @@ import DeleteContact from "./DeleteContact";
 import { login } from "@/api/auth";
 import { auth } from "@/common/auth";
 import { LinearLoading } from "@/components/Loading";
+import "./list-page.scss";
 
 const Home = () => {
   const [isAuthValid, setIsAuthValid] = useState(auth.check().valid);
@@ -42,15 +43,14 @@ const Home = () => {
 
   return (
     <>
-      <Box component="div" className="h-screen flex flex-col">
+      <Box component="div" className="h-screen flex flex-col list-page">
         <Header />
         <Box component="div" className="relative flex-grow">
           <Side />
           <Box
             component="div"
-            className="h-full"
+            className="h-full contact_list_view"
             sx={{
-              marginLeft: "280px",
               pl: 2,
             }}
           >

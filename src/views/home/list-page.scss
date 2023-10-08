@@ -1,0 +1,52 @@
+.list-page{
+  .contact_list_{
+    &table_container{
+      padding-right: 120px;
+    }
+    &view{
+      transition: margin-left 0.3s;
+      margin-left: 280px;
+    }
+    &table{
+      min-width: 0;
+    }
+
+    @media screen and (max-width: 480px) {
+      //
+    }
+    @media screen and (max-width: 700px) {
+      &email{
+        display: none;
+      }
+    }
+    @media screen and (max-width: 800px) {
+      &search{
+        display: none;
+      }
+    }
+    @media screen and (max-width: 1000px) {
+      &phone{
+        display: none;
+      }
+      &side{
+        display: none;
+      }
+      &view{
+        margin-left: 0;
+      }
+    }
+    @media screen and (max-width: 1300px) {
+      &position{
+        display: none;
+      }
+    }
+    @media screen and (max-width: 1400px) {
+      &label{
+        display: none;
+      }
+      &table_container{
+        padding-right: 36px;
+      }
+    }
+  }
+}

@@ -1,6 +1,5 @@
 import React, { Suspense } from "react";
-import { createBrowserRouter, RouterProvider, ScrollRestoration } from "react-router-dom";
-import { ErrorBoundary } from "@/components";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "@/views/home";
 import ContactList from "@/views/home/List";
 const Person = React.lazy(() => import("@/views/person"));

@@ -179,6 +179,7 @@ const ContactList = () => {
     <>
       <TableContainer
         component={Paper}
+        className="contact_list_table_container"
         variant="outlined"
         onScroll={onScroll}
         ref={setContactListElement}
@@ -186,12 +187,10 @@ const ContactList = () => {
           border: 0,
           overflowX: "visible",
           overflowY: "auto",
-          // paddingRight: "36px",
-          paddingRight: "120px",
           maxHeight: "calc(100vh - 64px)",
         }}
       >
-        <Table stickyHeader sx={{ minWidth: 650 }}>
+        <Table className="contact_list_table" stickyHeader sx={{ minWidth: 650 }}>
           <TableHead>
             <TableRow
               sx={{
@@ -202,6 +201,7 @@ const ContactList = () => {
               {columns.map((column) => (
                 <TableCell
                   key={column.value}
+                  className={`contact_list_${column.value}`}
                   sx={{
                     py: 0,
                     ...(column.value === "actions" ? { pr: 0 } : {}),
@@ -252,6 +252,7 @@ const ContactList = () => {
                 <TableCell
                   component="th"
                   scope="row"
+                  className={`contact_list_${columns[0].value}`}
                   sx={{
                     border: 0,
                     py: 0,
@@ -271,6 +272,7 @@ const ContactList = () => {
                   </Box>
                 </TableCell>
                 <TableCell
+                  className={`contact_list_${columns[1].value}`}
                   sx={{
                     border: 0,
                     py: 0,
@@ -281,6 +283,7 @@ const ContactList = () => {
                   {row.emailAddresses?.[0].value}
                 </TableCell>
                 <TableCell
+                  className={`contact_list_${columns[2].value}`}
                   sx={{
                     border: 0,
                     py: 0,
@@ -291,6 +294,7 @@ const ContactList = () => {
                   {row.phoneNumbers?.[0].canonicalForm}
                 </TableCell>
                 <TableCell
+                  className={`contact_list_${columns[3].value}`}
                   sx={{
                     border: 0,
                     py: 0,
@@ -302,6 +306,7 @@ const ContactList = () => {
                   {row.organizations?.[0]?.title}
                 </TableCell>
                 <TableCell
+                  className={`contact_list_${columns[4].value}`}
                   sx={{
                     border: 0,
                     p: 0,
@@ -335,6 +340,7 @@ const ContactList = () => {
                   </Box>
                 </TableCell>
                 <TableCell
+                  className={`contact_list_${columns[5].value}`}
                   align="right"
                   sx={{
                     border: 0,
@@ -382,6 +388,7 @@ const ContactList = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
       <ContactListMenu />
     </>
   );

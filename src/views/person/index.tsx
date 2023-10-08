@@ -12,19 +12,7 @@ import {
   MdAdd,
   MdDeleteOutline,
 } from "react-icons/md";
-import {
-  Box,
-  IconButton,
-  Avatar,
-  Typography,
-  Chip,
-  useTheme,
-  Button,
-  Divider,
-  Tooltip,
-  Portal,
-  LinearProgress,
-} from "@mui/material";
+import { Box, IconButton, Avatar, Typography, Chip, useTheme, Button, Divider, Tooltip } from "@mui/material";
 import { useGetContact } from "@/hooks/useContacts";
 import { useListGroups } from "@/hooks/useGroups";
 import UpdateTime from "./UpdateTime";
@@ -35,6 +23,7 @@ import GroupMenu from "../../components/GroupMenu";
 
 import { isNotFoundError } from "@/common/tools";
 import { LinearLoading } from "@/components/Loading";
+import "./contact-page.scss";
 const FallbackDisplay: React.FC<{
   data: unknown[] | null | undefined;
   children: React.ReactNode;
@@ -104,7 +93,7 @@ const Person = () => {
   }
   if (isLoading && !error) return <LinearLoading />;
   return (
-    <>
+    <Box component="div" className="contact-page">
       <Box
         sx={{
           pt: 3,
@@ -118,75 +107,92 @@ const Person = () => {
             gap: "36px",
           }}
         >
-          <Tooltip title="返回">
-            <IconButton
-              sx={{
-                alignSelf: "flex-start",
-              }}
-              onClick={goContactPages}
-            >
-              <MdArrowBack size={18} />
-            </IconButton>
-          </Tooltip>
-
-          <Avatar
-            src={data?.data?.photos?.[0]?.url}
+          <Box
+            component="div"
+            className="text-left contact-page_back"
             sx={{
-              width: 162,
-              height: 162,
+              alignSelf: "flex-start",
             }}
-          />
-          <Box sx={{ mt: 0.5 }}>
-            <Typography variant="h5" fontSize={28}>
-              {data?.data.names?.[0]?.displayName}
-            </Typography>
+          >
+            <Tooltip title="返回">
+              <IconButton
+                sx={{
+                  alignSelf: "flex-start",
+                }}
+                onClick={goContactPages}
+              >
+                <MdArrowBack size={18} />
+              </IconButton>
+            </Tooltip>
+          </Box>
 
-            <FallbackDisplay data={data?.data?.organizations} fallback={null}>
-              <Typography fontSize={18}>
-                {data?.data?.organizations?.[0]?.title}•{data?.data?.organizations?.[0]?.department}•
-                {data?.data?.organizations?.[0]?.name}
+          <Box
+            component="div"
+            className="contact-page_profile flex-grow"
+            sx={{
+              gap: "36px",
+            }}
+          >
+            <Avatar
+              src={data?.data?.photos?.[0]?.url}
+              className="contact-page_profile_avatar"
+              sx={{
+                width: 162,
+                height: 162,
+              }}
+            />
+            <Box className="contact-page_profile_name" sx={{ mt: 0.5 }}>
+              <Typography variant="h5" fontSize={28}>
+                {data?.data.names?.[0]?.displayName}
               </Typography>
-            </FallbackDisplay>
 
-            <FallbackDisplay data={data?.data?.memberships?.slice(0, -1)} fallback={fallback}>
-              {data?.data?.memberships?.slice(0, -1)?.map((item) => (
-                <Chip
-                  key={item.contactGroupMembership.contactGroupId}
-                  variant="outlined"
-                  size="small"
-                  sx={{
-                    mr: 1,
-                    my: 0.5,
-                    mt: "2px",
-                    borderRadius: 2,
-                    height: 28,
-                    fontSize: 12,
-                    fontWeight: 500,
-                  }}
-                  classes={{
-                    label: "h-[28px] flex items-center !px-4",
-                  }}
-                  label={getGroup(item.contactGroupMembership.contactGroupResourceName)?.name}
-                />
-              ))}
+              <FallbackDisplay data={data?.data?.organizations} fallback={null}>
+                <Typography fontSize={18}>
+                  {data?.data?.organizations?.[0]?.title}•{data?.data?.organizations?.[0]?.department}•
+                  {data?.data?.organizations?.[0]?.name}
+                </Typography>
+              </FallbackDisplay>
 
-              <GroupMenu activegGroups={data?.data?.memberships ?? []} contactId={id}>
-                <IconButton
-                  size="small"
-                  sx={{
-                    width: 28,
-                    height: 28,
-                    border: (theme) => `1px solid ${theme.palette.divider}`,
-                  }}
-                >
-                  <MdOutlineEdit color={theme.palette.primary.main} />
-                </IconButton>
-              </GroupMenu>
-            </FallbackDisplay>
+              <FallbackDisplay data={data?.data?.memberships?.slice(0, -1)} fallback={fallback}>
+                {data?.data?.memberships?.slice(0, -1)?.map((item) => (
+                  <Chip
+                    key={item.contactGroupMembership.contactGroupId}
+                    variant="outlined"
+                    size="small"
+                    sx={{
+                      mr: 1,
+                      my: 0.5,
+                      mt: "2px",
+                      borderRadius: 2,
+                      height: 28,
+                      fontSize: 12,
+                      fontWeight: 500,
+                    }}
+                    classes={{
+                      label: "h-[28px] flex items-center !px-4",
+                    }}
+                    label={getGroup(item.contactGroupMembership.contactGroupResourceName)?.name}
+                  />
+                ))}
+
+                <GroupMenu activegGroups={data?.data?.memberships ?? []} contactId={id}>
+                  <IconButton
+                    size="small"
+                    sx={{
+                      width: 28,
+                      height: 28,
+                      border: (theme) => `1px solid ${theme.palette.divider}`,
+                    }}
+                  >
+                    <MdOutlineEdit color={theme.palette.primary.main} />
+                  </IconButton>
+                </GroupMenu>
+              </FallbackDisplay>
+            </Box>
           </Box>
           <Box
             component="div"
-            className="flex items-center justify-end ml-auto"
+            className="flex items-center justify-end contact-page_actions"
             sx={{
               alignSelf: "flex-start",
             }}
@@ -222,9 +228,9 @@ const Person = () => {
         </Box>
       </Box>
 
-      <Box component="div" className="relative pl-[15vw]">
+      <Box component="div" className="contact-page_divider relative" sx={{ mt: 2 }}>
         <Divider className="absolute left-0 w-full top-1/2" />
-        <Box component="div" className="inline-flex relative z-10 bg-white">
+        <Box component="div" className="inline-flex relative z-10 bg-white contact-page_divider_actions">
           <IconButton
             className="flex-shrink-0"
             sx={{
@@ -270,11 +276,11 @@ const Person = () => {
           </IconButton>
         </Box>
       </Box>
-      <Box component="div" className="flex" sx={{ mt: 4 }}>
+      <Box component="div" className="flex contact-page_cards" sx={{ mt: 4 }}>
         <Info data={data?.data} />
         <UpdateTime time={data?.data?.metadata?.sources?.[0]?.updateTime || ""} />
       </Box>
-    </>
+    </Box>
   );
 };
 

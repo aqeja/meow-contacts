@@ -39,7 +39,7 @@ class Auth {
       } else {
         return {
           valid: true,
-          refresh: false,
+          refresh: true,
           refresh_token,
         };
       }
@@ -59,7 +59,10 @@ class Auth {
 
     if (valid && refresh && !!refresh) {
       const { data } = await refreshToken(refresh_token);
-      this.create(data);
+      this.create({
+        ...data,
+        refresh_token,
+      });
     }
     return this._getAuth();
   }

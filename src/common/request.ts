@@ -24,13 +24,14 @@ client.interceptors.request.use(
     },
   ) => {
     const url = fullUrl(config.baseURL, config.url);
-    const _authInfo = await auth.get();
     const customConfig = {
       ...defaultCustomConfig,
       ...config.CUSTOM,
     };
 
     if (customConfig.auth) {
+      const _authInfo = await auth.get();
+
       if (!_authInfo) {
         throw new AuthNotExistError();
       }

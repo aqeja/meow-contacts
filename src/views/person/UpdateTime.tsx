@@ -16,9 +16,9 @@ const UpdateTime: React.FC<{ time: string }> = ({ time }) => {
     return (
       <Box
         component="div"
+        className="contact-page_modified"
         sx={{
           p: 2,
-          ml: 2,
         }}
       >
         <Typography fontWeight={500} sx={{ mb: 1 }} className="flex items-center">
