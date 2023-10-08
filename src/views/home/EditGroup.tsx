@@ -1,25 +1,12 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  Typography,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  TextField,
-  DialogProps,
-} from "@mui/material";
-import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import React, { useCallback, useMemo } from "react";
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, DialogProps } from "@mui/material";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import { GroupDialogViewType, groupDialogDataState } from "@/store/group";
-import { useDeleteGroup, useEditGroup, useListGroups } from "@/hooks/useGroups";
-import { useToast } from "@/components/Toast";
+import { useEditGroup, useListGroups } from "@/hooks/useGroups";
 
 import { Formik, Form, FormikHelpers } from "formik";
 
-enum EditGroupFormType {
+export enum EditGroupFormType {
   edit,
   create,
 }
@@ -106,9 +93,10 @@ export const EditGroup = () => {
   const groupDialogData = useRecoilValue(groupDialogDataState);
   const resetGroupDialogData = useResetRecoilState(groupDialogDataState);
 
-  const { mutateAsync } = useEditGroup();
+  const { mutateAsync, isLoading } = useEditGroup();
   const editGroup = useCallback(
     async ({ name: newName }: { name: string }) => {
+      if (isLoading) return;
       if (!groupDialogData.group) return;
 
       if (newName === "" || newName === groupDialogData.group.name) return;
@@ -123,7 +111,7 @@ export const EditGroup = () => {
       });
       resetGroupDialogData();
     },
-    [groupDialogData, mutateAsync, resetGroupDialogData],
+    [groupDialogData, mutateAsync, resetGroupDialogData, isLoading],
   );
   return (
     <BaseEditGroup
