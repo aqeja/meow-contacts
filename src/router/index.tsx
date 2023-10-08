@@ -1,53 +1,47 @@
-import React, { Suspense, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { Suspense } from "react";
+import { createBrowserRouter, RouterProvider, ScrollRestoration } from "react-router-dom";
 import { ErrorBoundary } from "@/components";
 import Home from "@/views/home";
-
+import ContactList from "@/views/home/List";
+const Person = React.lazy(() => import("@/views/person"));
 const LinearProgress = () => {
   return <div>loading...</div>;
 };
 
 const NotFound = () => {
-  return <div>not found...</div>;
+  return <div className="p-4">当前页面不存在</div>;
 };
 
-const InternalRoute: React.FC<{ title: string; children?: React.ReactNode }> = ({ children, title, ...rest }) => {
-  useEffect(() => {
-    const title = document.title;
-    document.title = `${title}`;
-    return () => {
-      document.title = title;
-    };
-  }, [title]);
-  return <>{children}</>;
-};
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+    children: [
+      {
+        index: true,
+        element: <ContactList />,
+      },
+      {
+        path: "person/:id",
+        element: <Person />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
+      },
+    ],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
+]);
+
 const RouterView = () => {
   return (
     <Suspense fallback={<LinearProgress />}>
-      <BrowserRouter basename="/">
-        <ErrorBoundary hasError={false}>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <InternalRoute title="index">
-                  <Home />
-                </InternalRoute>
-              }
-            />
-            <Route
-              path="*"
-              element={
-                <InternalRoute title="404">
-                  <NotFound />
-                </InternalRoute>
-              }
-            />
-          </Routes>
-        </ErrorBoundary>
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </Suspense>
   );
 };
-
 export default RouterView;

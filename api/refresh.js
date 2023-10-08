@@ -3,7 +3,7 @@ const oAuth2Client = new OAuth2Client(process.env.CLIENT_ID, process.env.CLIENT_
 
 export default async function handler(req, res) {
   const { body } = req;
-  const { tokens } = await oAuth2Client.getToken(body.code);
+  const { tokens } = await oAuth2Client.refreshToken(body.refreshToken);
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.status(200).json(tokens);
