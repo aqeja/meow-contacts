@@ -16,6 +16,8 @@ const Home = () => {
     flow: "auth-code",
     scope: "https://www.googleapis.com/auth/contacts",
     onSuccess: async (codeResponse) => {
+      console.log(codeResponse, "xxx");
+
       const res = await login(codeResponse.code);
       auth.create(res.data);
       setIsLoading(false);
@@ -23,11 +25,6 @@ const Home = () => {
     onError: (errorResponse) => console.log(errorResponse),
   });
   useRestoreScroll();
-  useEffect(() => {
-    if (isLoading) {
-      googleLogin();
-    }
-  }, [isLoading, googleLogin]);
 
   if (isLoading) {
     return (

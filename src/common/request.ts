@@ -10,29 +10,49 @@ const client = axios.create({
 });
 const isDEV = import.meta.env.DEV;
 
-client.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
-  const url = fullUrl(config.baseURL, config.url);
-  const _authInfo = auth.get();
+export type CustomConfig = {
+  auth?: boolean;
+};
+const defaultCustomConfig: CustomConfig = {
+  auth: true,
+};
 
-  if (!_authInfo) {
-    throw new AuthNotExistError();
-  }
-  const isAuthValid = auth.check();
-  if (!isAuthValid) {
-    throw new AuthExpiredeError();
-  }
-  let token = "";
-  if (isAuthValid && !!_authInfo?.access_token) {
-    token = _authInfo.access_token;
-  } else {
-    throw new AuthExpiredeError(); // 其实不会执行到这个逻辑，已经提前报错
-  }
+client.interceptors.request.use(
+  async (
+    config: InternalAxiosRequestConfig & {
+      CUSTOM?: CustomConfig;
+    },
+  ) => {
+    const url = fullUrl(config.baseURL, config.url);
+    const _authInfo = auth.get();
+    const customConfig = {
+      ...defaultCustomConfig,
+      ...config.CUSTOM,
+    };
 
-  if (url.includes(GoogleAPIUrl) || isDEV) {
-    config.headers.set("Authorization", `Bearer ${token}`);
-  }
-  return config;
-});
+    if (customConfig.auth) {
+      if (!_authInfo) {
+        throw new AuthNotExistError();
+      }
+      const isAuthValid = auth.check();
+      if (!isAuthValid) {
+        throw new AuthExpiredeError();
+      }
+      let token = "";
+      if (isAuthValid && !!_authInfo?.access_token) {
+        token = _authInfo.access_token;
+      } else {
+        throw new AuthExpiredeError(); // 其实不会执行到这个逻辑，已经提前报错
+      }
+
+      if (url.includes(GoogleAPIUrl) || isDEV) {
+        config.headers.set("Authorization", `Bearer ${token}`);
+      }
+    }
+
+    return config;
+  },
+);
 function isGoogleError(content: any): content is GoogleError {
   return (
     typeof content === "object" &&
